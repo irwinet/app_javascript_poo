@@ -1,3 +1,22 @@
+class Comment {
+    constructor({
+        content,
+        studentName,
+        studentRole = "studiante",
+    }){
+        this.content = content;
+        this.studentName = studentName;
+        this.studentRole = studentRole;
+        this.likes = 0;
+    }
+
+    publicar(){
+        console.log(this.studentName + " (" + this.studentRole + ")");
+        console.log(this.likes + " likes");
+        console.log(this.content);
+    }
+}
+
 function videoPlay(id){
     const urlSecreta = "https://example/"+ id;
     console.log("Se esta reproduciendo desde la url "+ urlSecreta);
@@ -123,6 +142,33 @@ class Student {
         this.approvedCourses = approvedCourses;
         this.learningPaths = learningPaths;
     }
+
+    publicarComentario(commentContent){
+        const comment = new Comment({
+            content: commentContent,
+            studentName: this.name,
+        });
+        comment.publicar();
+    }
+}
+
+class TeacherStudent extends Student {
+    constructor(props) {
+        super(props);            
+    }
+
+    approvedCourse(newCourse) {
+        this.approvedCourses.push(newCourse);
+    }
+
+    publicarComentario(commentContent){
+        const comment = new Comment({
+            content: commentContent,
+            studentName: this.name,
+            studentRole: "profesor",
+        });
+        comment.publicar();
+    }
 }
 
 class FreeStudent extends Student {
@@ -186,4 +232,11 @@ const juan = new BasicStudent({
         escuelaData,
         escuelaVgs,
     ]
+});
+
+const pedro = new TeacherStudent({
+    name: 'pedro',
+    username: 'pedrowe',
+    email: 'pedro@example.com',
+    instagram: 'pedrowe',    
 });
